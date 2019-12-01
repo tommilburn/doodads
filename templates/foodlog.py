@@ -4,34 +4,38 @@ import datetime
 import calendar
 import argparse
 
-
-parser = argparse.ArgumentParser(description='A calendar generator')
+parser = argparse.ArgumentParser(description='Daily list markdown text generator')
+parser.add_argument('-f', '--file', help='save to file', action='store_true')
 parser.add_argument('year')
 parser.add_argument('month')
-
 args = parser.parse_args()
 
-templatename='foodlog'
-templatefile = createTemplate(templatename)
-
 cal = calendar.Calendar()
-today = datetime.date.today()
 
-templateYear = args.year or '2019'
-templateMonth = args.month or '12'
+templateYear = int(args.year)
+templateMonth = int(args.month)
 
 def generateText(year, month):
-  lines = [str('# ' + str(year) + '-' + str(month)) + '\n']
 
-  days = list(filter(lambda x: x > 0, list(cal.itermonthdays(2019, 12))))
+  lines = ['# {:d}-{:02d}\n'.format(year, month)]
+
+  days = list(filter(lambda x: x > 0, list(cal.itermonthdays(year, month))))
 
   for day in days:
-    lines.append('## ' + calendar.month_abbr[int(month)] + ' ' + str(day).rjust(2, '0'))
+    lines.append('## {:s} {:02d}'.format(calendar.month_abbr[int(month)], day))
     lines.append('- \n')
 
   t = '\n'.join(lines)
-  print(t) # it's nice to `| pbcopy`
   return t
 
-templatefile.write(generateText(templateYear, templateMonth))
-templatefile.close()
+output = generateText(templateYear, templateMonth)
+
+# save to file
+if args.file is True:
+  templatename='foodlog'
+  templatefile = createTemplate(templatename)
+  templatefile.write(output)
+  templatefile.close()
+# otherwise stdout
+else:
+  print(output)
