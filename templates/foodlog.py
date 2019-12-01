@@ -32,7 +32,7 @@ output = generateText(templateYear, templateMonth)
 
 # save to file
 if args.file is True:
-  templatename='foodlog'
+  templatename='foodlog-{:04d}-{:02d}'.format(templateYear, templateMonth)
   templatefile = createTemplate(templatename)
   templatefile.write(output)
   templatefile.close()
