@@ -1,7 +1,10 @@
-# Handy Templates
+# doodads
 
 ## What is it?
-Some handy tools I use sometimes that I wanted to re-write in Python. 
+Some handy tools I use sometimes
 
-## How to use
-Each tool has a `--help` option, so something like `python3 foodlog.py --help` should get you pretty close.
+### `noise`
+Terminal command to play noise in the background for office isolation
+
+### `python-templates`
+Generate markdown templates for useful things
